@@ -1,3 +1,5 @@
+import net.datastructures.HeapAdaptablePriorityQueue;
+
 public class Process {
     private int id;
 

@@ -2,7 +2,7 @@ import net.datastructures.HeapAdaptablePriorityQueue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class ProcessScheduling {
@@ -10,7 +10,10 @@ public class ProcessScheduling {
         File file = new File(System.getProperty("user.dir") + "/src/input/process_scheduling_input.txt");
         Scanner reader = new Scanner(file);
 
-        HeapAdaptablePriorityQueue schedulerQueue = new HeapAdaptablePriorityQueue();
+        HeapAdaptablePriorityQueue<Integer, Process> schedulerQueue = new HeapAdaptablePriorityQueue<>();
+        HeapAdaptablePriorityQueue<Integer, Process> processQueue = new HeapAdaptablePriorityQueue<>();
+
+        System.out.println("Building Process Queue...");
         while (reader.hasNextLine()) {
             String line = reader.nextLine().toString();
             String[] inputArray = line.split(" ");
@@ -20,8 +23,23 @@ public class ProcessScheduling {
                 inputArrayInt[i] = Integer.valueOf(inputArray[i]);
             }
             Process process = new Process(inputArrayInt);
-            schedulerQueue.insert(process.getPriority(), process);
+            System.out.println(process.toString());
+            processQueue.insert(process.getArrivalTime(), process);
         }
-        System.out.println(schedulerQueue.remove());
+
+        int time = 0;
+        while (!processQueue.isEmpty() || !schedulerQueue.isEmpty()) {
+            if (!processQueue.isEmpty()) {
+                if (processQueue.min().getValue().getArrivalTime() <= time) {
+                    Process process = processQueue.removeMin().getValue();
+                    schedulerQueue.insert(process.getId(), process);
+                }
+            }
+            if (!schedulerQueue.isEmpty()) {
+                System.out.println("Executed process ID: " + schedulerQueue.min().getKey() +
+                        " at time " + time + " Remaining: " + schedulerQueue.min().getValue().getDuration());
+            }
+            time ++;
+        }
     }
 }
