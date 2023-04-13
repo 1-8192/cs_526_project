@@ -1,3 +1,5 @@
+import net.datastructures.HeapAdaptablePriorityQueue;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ public class ProcessScheduling {
         File file = new File(System.getProperty("user.dir") + "/src/input/process_scheduling_input.txt");
         Scanner reader = new Scanner(file);
 
+        HeapAdaptablePriorityQueue schedulerQueue = new HeapAdaptablePriorityQueue();
         while (reader.hasNextLine()) {
             String line = reader.nextLine().toString();
             String[] inputArray = line.split(" ");
@@ -17,7 +20,8 @@ public class ProcessScheduling {
                 inputArrayInt[i] = Integer.valueOf(inputArray[i]);
             }
             Process process = new Process(inputArrayInt);
-            System.out.println(process.toString());
+            schedulerQueue.insert(process.getPriority(), process);
         }
+        System.out.println(schedulerQueue.remove());
     }
 }

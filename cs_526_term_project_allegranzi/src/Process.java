@@ -15,8 +15,8 @@ public class Process {
     public Process(int[] inputArray) {
         this.id = inputArray[0];
         this.priority = inputArray[1];
-        this.arrivalTime = inputArray[2];
-        this.duration = inputArray[3];
+        this.duration = inputArray[2];
+        this.arrivalTime = inputArray[3];
     }
 
     public int getId() {
