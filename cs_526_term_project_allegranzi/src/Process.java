@@ -37,6 +37,10 @@ public class Process {
         return this.duration;
     }
 
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("Id = ");

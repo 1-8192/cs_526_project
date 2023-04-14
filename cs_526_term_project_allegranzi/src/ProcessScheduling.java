@@ -2,7 +2,6 @@ import net.datastructures.HeapAdaptablePriorityQueue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class ProcessScheduling {
@@ -27,6 +26,7 @@ public class ProcessScheduling {
             processQueue.insert(process.getArrivalTime(), process);
         }
 
+        Process runningProcess = null;
         int time = 0;
         while (!processQueue.isEmpty() || !schedulerQueue.isEmpty()) {
             if (!processQueue.isEmpty()) {
@@ -36,8 +36,22 @@ public class ProcessScheduling {
                 }
             }
             if (!schedulerQueue.isEmpty()) {
-                System.out.println("Executed process ID: " + schedulerQueue.min().getKey() +
-                        " at time " + time + " Remaining: " + schedulerQueue.min().getValue().getDuration());
+                if (runningProcess == null) {
+                    runningProcess = schedulerQueue.removeMin().getValue();
+                    System.out.println("Executed process ID: " + runningProcess.getId() +
+                            " at time " + time + " Remaining: " + runningProcess.getDuration());
+                } else if (runningProcess.getDuration() == 1) {
+                    System.out.println("Finished running Process id = " + runningProcess.getId() +
+                            " Arrival = " + runningProcess.getArrivalTime() + "\n" +
+                            "Duration = " + runningProcess.getDuration() + "\n" +
+                            "Run time left = 0\n" +
+                            "at time " + time);
+                    runningProcess = null;
+                } else if (runningProcess.getDuration() > 1) {
+                    runningProcess.setDuration(runningProcess.getDuration() - 1);
+                    System.out.println("Executed process ID: " + runningProcess.getId() +
+                            " at time " + time + " Remaining: " + runningProcess.getDuration());
+                }
             }
             time ++;
         }
