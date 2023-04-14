@@ -13,6 +13,7 @@ public class ProcessScheduling {
         HeapAdaptablePriorityQueue<Integer, Process> schedulerQueue = new HeapAdaptablePriorityQueue<>();
         HeapAdaptablePriorityQueue<Integer, Process> processQueue = new HeapAdaptablePriorityQueue<>();
 
+        // Reading the processes from the input file
         System.out.println("Building Process Queue...");
         while (reader.hasNextLine()) {
             String line = reader.nextLine().toString();
@@ -27,6 +28,9 @@ public class ProcessScheduling {
             processQueue.insert(process.getArrivalTime(), process);
         }
 
+        reader.close();
+
+        // Actual simulation starts here
         Process runningProcess = null;
         int time = 0;
         while (!processQueue.isEmpty() || !schedulerQueue.isEmpty()) {
@@ -53,6 +57,10 @@ public class ProcessScheduling {
                     System.out.println("Executed process ID: " + runningProcess.getId() +
                             " at time " + time + " Remaining: " + runningProcess.getDuration());
                 }
+
+                Iterator itr = schedulerQueue.iterator();
+
+               
             }
             time ++;
         }
