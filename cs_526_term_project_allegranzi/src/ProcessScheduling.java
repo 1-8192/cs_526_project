@@ -47,34 +47,49 @@ public class ProcessScheduling {
             }
 
             if (runningProcess != null) {
-                int runTimeLeft = runningProcess.getRunTimeLeft();
-                if (runTimeLeft == 0) {
-                    System.out.println("Finished running Process id = " + runningProcess.getId() +
+                if (!schedulerQueue.isEmpty() && schedulerQueue.min().getKey() < runningProcess.getPriority()) {
+                    schedulerQueue.insert(runningProcess.getPriority(), runningProcess);
+                    runningProcess = schedulerQueue.removeMin().getValue();
+                    totalWaitTime += runningProcess.getWaitTime();
+                    System.out.println("Now running Process id = " + runningProcess.getId() +
                             " Arrival = " + runningProcess.getArrivalTime() + "\n" +
                             "Duration = " + runningProcess.getDuration() + "\n" +
                             "Run time left = " + runningProcess.getRunTimeLeft() + "\n" +
                             "at time " + time);
-                    runningProcess = null;
-                } else if (runTimeLeft >= 1) {
                     runningProcess.setRunTimeLeft(runningProcess.getRunTimeLeft() - 1);
                     System.out.println("Executed process ID: " + runningProcess.getId() +
                             " at time " + time + " Remaining: " + runningProcess.getRunTimeLeft());
+                } else {
+                    int runTimeLeft = runningProcess.getRunTimeLeft();
+                    if (runTimeLeft == 0) {
+                        System.out.println("Finished running Process id = " + runningProcess.getId() +
+                                " Arrival = " + runningProcess.getArrivalTime() + "\n" +
+                                "Duration = " + runningProcess.getDuration() + "\n" +
+                                "Run time left = " + runningProcess.getRunTimeLeft() + "\n" +
+                                "at time " + time);
+                        runningProcess = null;
+                    } else if (runTimeLeft >= 1) {
+                        runningProcess.setRunTimeLeft(runningProcess.getRunTimeLeft() - 1);
+                        System.out.println("Executed process ID: " + runningProcess.getId() +
+                                " at time " + time + " Remaining: " + runningProcess.getRunTimeLeft());
+                    }
                 }
-            }
-
-            if (runningProcess == null && !schedulerQueue.isEmpty()) {
+            } else if (runningProcess == null && !schedulerQueue.isEmpty()) {
                 runningProcess = schedulerQueue.removeMin().getValue();
                 totalWaitTime += runningProcess.getWaitTime();
                 System.out.println("Now running Process id = " + runningProcess.getId() +
                         " Arrival = " + runningProcess.getArrivalTime() + "\n" +
                         "Duration = " + runningProcess.getDuration() + "\n" +
-                        "Run time left = 0\n" +
+                        "Run time left = " + runningProcess.getRunTimeLeft() + "\n" +
                         "at time " + time);
+                runningProcess.setRunTimeLeft(runningProcess.getRunTimeLeft() - 1);
+                System.out.println("Executed process ID: " + runningProcess.getId() +
+                        " at time " + time + " Remaining: " + runningProcess.getRunTimeLeft());
             }
 
             while (!schedulerQueue.isEmpty()) {
                 Process min = schedulerQueue.removeMin().getValue();
-                int wait = time - min.getArrivalTime();
+                int wait = (time - min.getArrivalTime()) - (min.getDuration() - min.getRunTimeLeft());
                 min.setWaitTime(wait);
                 if (wait % MAX_WAIT_TIME == 0 && wait != 0) {
                     min.setPriority(min.getPriority() - 1);
@@ -87,12 +102,6 @@ public class ProcessScheduling {
             while (!helperQueue.isEmpty()) {
                 Process process = helperQueue.dequeue();
                 schedulerQueue.insert(process.getPriority(), process);
-            }
-
-            if (!schedulerQueue.isEmpty() && runningProcess != null
-                    && schedulerQueue.min().getKey() < runningProcess.getPriority()) {
-                schedulerQueue.insert(runningProcess.getPriority(), runningProcess);
-                runningProcess = null;
             }
             time ++;
         }
