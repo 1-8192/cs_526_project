@@ -8,6 +8,8 @@ public class Process {
     private int duration;
     private int waitTime;
 
+    private int runTimeLeft;
+
     public Process(int id, int priority, int arrivalTime, int duration
     ) {
         this.id = id;
@@ -15,6 +17,7 @@ public class Process {
         this.arrivalTime = arrivalTime;
         this.duration = duration;
         this.waitTime = 0;
+        this.runTimeLeft = duration;
     }
 
     public Process(int[] inputArray) {
@@ -22,7 +25,8 @@ public class Process {
         this.priority = inputArray[1];
         this.duration = inputArray[2];
         this.arrivalTime = inputArray[3];
-        this.waitTime = 0;
+        this.waitTime = (inputArray.length >= 5) ? inputArray[4] : 0;
+        this.runTimeLeft = (inputArray.length >= 6) ? inputArray[5] : inputArray[2];
     }
 
     public int getId() {
@@ -45,6 +49,8 @@ public class Process {
         return this.waitTime;
     }
 
+    public int getRunTimeLeft() {return this.runTimeLeft; }
+
     public void setDuration(int duration) {
         this.duration = duration;
     }
@@ -54,7 +60,11 @@ public class Process {
     }
 
     public void setWaitTime(int waitTime) {
-        this.priority = waitTime;
+        this.waitTime = waitTime;
+    }
+
+    public void setRunTimeLeft(int runTimeLeft) {
+        this.runTimeLeft = runTimeLeft;
     }
 
     public String toString() {
@@ -73,6 +83,9 @@ public class Process {
         builder.append(", ");
         builder.append("Wait Time = ");
         builder.append(this.waitTime);
+        builder.append(", ");
+        builder.append("Run Time Left = ");
+        builder.append(this.runTimeLeft);
         return builder.toString();
     }
 }

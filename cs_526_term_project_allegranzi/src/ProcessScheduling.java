@@ -1,11 +1,9 @@
 import net.datastructures.HeapAdaptablePriorityQueue;
 import net.datastructures.LinkedQueue;
-import net.datastructures.PriorityQueue;
-import net.datastructures.Queue;
 
+import javax.sound.midi.SysexMessage;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Iterator;
 import java.util.Scanner;
 
 public class ProcessScheduling {
@@ -18,7 +16,8 @@ public class ProcessScheduling {
         HeapAdaptablePriorityQueue<Integer, Process> processQueue = new HeapAdaptablePriorityQueue<>();
         LinkedQueue<Process> helperQueue = new LinkedQueue<>();
 
-        // Reading the processes from the input file
+        // Reading the processes from the input file and storing them in an adaptable
+        // priority queue, keyed on arrival time.
         System.out.println("Building Process Queue...");
         while (reader.hasNextLine()) {
             String line = reader.nextLine().toString();
@@ -46,30 +45,41 @@ public class ProcessScheduling {
                     schedulerQueue.insert(process.getPriority(), process);
                 }
             }
-            if (!schedulerQueue.isEmpty()) {
-                if (runningProcess == null) {
-                    runningProcess = schedulerQueue.removeMin().getValue();
-                    totalWaitTime += runningProcess.getWaitTime();
-                    System.out.println("Executed process ID: " + runningProcess.getId() +
-                            " at time " + time + " Remaining: " + runningProcess.getDuration());
-                } else if (runningProcess.getDuration() == 1) {
+
+            if (runningProcess != null) {
+                int runTimeLeft = runningProcess.getRunTimeLeft();
+                if (runTimeLeft == 0) {
                     System.out.println("Finished running Process id = " + runningProcess.getId() +
                             " Arrival = " + runningProcess.getArrivalTime() + "\n" +
                             "Duration = " + runningProcess.getDuration() + "\n" +
-                            "Run time left = 0\n" +
-                            "at time " + time);
+                            "Run time left = " + runningProcess.getRunTimeLeft() +
+                            " at time " + time);
                     runningProcess = null;
-                } else if (runningProcess.getDuration() > 1) {
-                    runningProcess.setDuration(runningProcess.getDuration() - 1);
+                } else if (runTimeLeft >= 1) {
+                    runningProcess.setRunTimeLeft(runningProcess.getRunTimeLeft() - 1);
                     System.out.println("Executed process ID: " + runningProcess.getId() +
-                            " at time " + time + " Remaining: " + runningProcess.getDuration());
+                            " at time " + time + " Remaining: " + runningProcess.getRunTimeLeft());
                 }
+            }
+
+            if (runningProcess == null && !schedulerQueue.isEmpty()) {
+                runningProcess = schedulerQueue.removeMin().getValue();
+                totalWaitTime += runningProcess.getWaitTime();
+                System.out.println("Now running Process id = " + runningProcess.getId() +
+                        " Arrival = " + runningProcess.getArrivalTime() + "\n" +
+                        "Duration = " + runningProcess.getDuration() + "\n" +
+                        "Run time left = 0\n" +
+                        "at time " + time);
+            }
+
                 while (!schedulerQueue.isEmpty()) {
                     Process min = schedulerQueue.removeMin().getValue();
                     int wait = time - min.getArrivalTime();
                     min.setWaitTime(wait);
-                    if (wait > MAX_WAIT_TIME) {
+                    if (wait % MAX_WAIT_TIME == 0 && wait != 0) {
                         min.setPriority(min.getPriority() - 1);
+                        System.out.println("Process " + min.getId() + " reached maximum wait time... decreasing priority to "
+                                + min.getPriority());
                     }
                     helperQueue.enqueue(min);
                 }
@@ -84,7 +94,6 @@ public class ProcessScheduling {
                     schedulerQueue.insert(runningProcess.getPriority(), runningProcess);
                     runningProcess = null;
                 }
-            }
             time ++;
         }
         int average = totalWaitTime / totalProcesses;
