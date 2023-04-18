@@ -8,7 +8,7 @@ public class ProcessScheduling {
     private static int MAX_WAIT_TIME = 30;
     private static String DIR = "user.dir";
     private static String READ_FILE_PATH = "/src/input/process_scheduling_input.txt";
-    private static String WRITE_FILE_PATH = "/src/input/process_scheduling_output.txt";
+    private static String WRITE_FILE_PATH = "/src/output/process_scheduling_output.txt";
     public static void main(String args[]) throws IOException {
         File file = new File(System.getProperty(DIR) + READ_FILE_PATH);
         Scanner reader = new Scanner(file);
