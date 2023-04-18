@@ -133,7 +133,7 @@ public class ProcessScheduling {
                 entry = (Entry) itr.next();
                 currProcess = (Process) entry.getValue();
                 wait = currProcess.getWaitTime();
-                if (wait % MAX_WAIT_TIME == 0 && wait != 0) {
+                if (wait % MAX_WAIT_TIME == (MAX_WAIT_TIME - 1) && wait != 0) {
                     currProcess.setPriority(currProcess.getPriority() - 1);
                     message = "Process " + currProcess.getId() + " reached maximum wait time... decreasing priority to "
                             +currProcess.getPriority() + "\n";
