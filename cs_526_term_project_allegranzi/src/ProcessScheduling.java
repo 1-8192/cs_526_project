@@ -1,7 +1,9 @@
+import net.datastructures.Entry;
 import net.datastructures.HeapAdaptablePriorityQueue;
 import net.datastructures.LinkedQueue;
 
 import java.io.*;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class ProcessScheduling {
@@ -109,24 +111,55 @@ public class ProcessScheduling {
                 writer.write(message);
             }
 
-            while (!schedulerQueue.isEmpty()) {
-                Process min = schedulerQueue.removeMin().getValue();
-                int wait = (time - min.getArrivalTime()) - (min.getDuration() - min.getRunTimeLeft());
-                min.setWaitTime(wait);
-                if (wait % MAX_WAIT_TIME == 0 && wait != 0) {
-                    min.setPriority(min.getPriority() - 1);
-                    message = "Process " + min.getId() + " reached maximum wait time... decreasing priority to "
-                            + min.getPriority() + "\n";
-                    System.out.print(message);
-                    writer.write(message);
-                }
-                helperQueue.enqueue(min);
+            // The instructions mention using another data structure to contain changing processes given the possible
+            // priority change. I opted to just iterate over the adaptable queue twice, once to update wait time, and
+            // once to update priority, to avoid key/value mishaps on one iteration. This strategy saves the space
+            // complexity of an additional queue, and still requires 2 iterations, like having to iterate through the
+            // additional queue to insert entries back into the main adaptable queue.
+            Iterator itr = schedulerQueue.iterator();
+            Entry entry;
+            Process currProcess;
+            int wait;
+            while (itr.hasNext()) {
+                entry = (Entry) itr.next();
+                currProcess = (Process) entry.getValue();
+                wait = (time - currProcess.getArrivalTime()) - (currProcess.getDuration() - currProcess.getRunTimeLeft());
+                currProcess.setWaitTime(wait);
+                schedulerQueue.replaceValue(entry, currProcess);
             }
 
-            while (!helperQueue.isEmpty()) {
-                Process process = helperQueue.dequeue();
-                schedulerQueue.insert(process.getPriority(), process);
+            itr = schedulerQueue.iterator();
+            while (itr.hasNext()) {
+                entry = (Entry) itr.next();
+                currProcess = (Process) entry.getValue();
+                wait = currProcess.getWaitTime();
+                if (wait % MAX_WAIT_TIME == 0 && wait != 0) {
+                    currProcess.setPriority(currProcess.getPriority() - 1);
+                    message = "Process " + currProcess.getId() + " reached maximum wait time... decreasing priority to "
+                            +currProcess.getPriority() + "\n";
+                    System.out.print(message);
+                    writer.write(message);
+                    schedulerQueue.replaceKey(entry, currProcess.getPriority());
+                }
             }
+//            while (!schedulerQueue.isEmpty()) {
+//                Process min = schedulerQueue.removeMin().getValue();
+//                int wait = (time - min.getArrivalTime()) - (min.getDuration() - min.getRunTimeLeft());
+//                min.setWaitTime(wait);
+//                if (wait % MAX_WAIT_TIME == 0 && wait != 0) {
+//                    min.setPriority(min.getPriority() - 1);
+//                    message = "Process " + min.getId() + " reached maximum wait time... decreasing priority to "
+//                            + min.getPriority() + "\n";
+//                    System.out.print(message);
+//                    writer.write(message);
+//                }
+//                helperQueue.enqueue(min);
+//            }
+//
+//            while (!helperQueue.isEmpty()) {
+//                Process process = helperQueue.dequeue();
+//                schedulerQueue.insert(process.getPriority(), process);
+//            }
             time ++;
         }
         double average = (double)totalWaitTime / (double)totalProcesses;
