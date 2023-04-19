@@ -15,6 +15,7 @@ public class ProcessScheduling {
     private static HeapAdaptablePriorityQueue<Integer, Process> schedulerQueue = new HeapAdaptablePriorityQueue<>();
     private static HeapAdaptablePriorityQueue<Integer, Process> processQueue = new HeapAdaptablePriorityQueue<>();
     private static LinkedQueue<Process> finishedProcessQueue = new LinkedQueue<>();
+    private static LinkedQueue<Process> helperQueue = new LinkedQueue<>();
 
     /**
      * Main class function
@@ -122,9 +123,9 @@ public class ProcessScheduling {
                 while (itr.hasNext()) {
                     entry = (Entry) itr.next();
                     currProcess = (Process) entry.getValue();
-                    wait = currProcess.getWaitTime() + 1;
+                    wait = (time - currProcess.getArrivalTime() + 1) - (currProcess.getDuration() - currProcess.getRunTimeLeft());
                     currProcess.setWaitTime(wait);
-                    if (currProcess.getWaitTime() % MAX_WAIT_TIME == (MAX_WAIT_TIME - 1)) {
+                    if (currProcess.getWaitTime() != 0 && currProcess.getWaitTime() % MAX_WAIT_TIME == 0) {
                         currProcess.setPriority(currProcess.getPriority() - 1);
                         message = "Process " + currProcess.getId() + " reached maximum wait time... decreasing priority to "
                                 + currProcess.getPriority() + "\n";
