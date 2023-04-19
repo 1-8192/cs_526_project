@@ -11,31 +11,18 @@ public class ProcessScheduling {
     private static String DIR = "user.dir";
     private static String READ_FILE_PATH = "/src/input/process_scheduling_input.txt";
     private static String WRITE_FILE_PATH = "/src/output/process_scheduling_output.txt";
+
+    private static HeapAdaptablePriorityQueue<Integer, Process> schedulerQueue = new HeapAdaptablePriorityQueue<>();
+    private static HeapAdaptablePriorityQueue<Integer, Process> processQueue = new HeapAdaptablePriorityQueue<>();
+    private static LinkedQueue<Process> finishedProcessQueue = new LinkedQueue<>();
+
+    /**
+     * Main class function
+     * @param args
+     * @throws IOException
+     */
     public static void main(String args[]) throws IOException {
-        File file = new File(System.getProperty(DIR) + READ_FILE_PATH);
-        Scanner reader = new Scanner(file);
-
-        HeapAdaptablePriorityQueue<Integer, Process> schedulerQueue = new HeapAdaptablePriorityQueue<>();
-        HeapAdaptablePriorityQueue<Integer, Process> processQueue = new HeapAdaptablePriorityQueue<>();
-        LinkedQueue<Process> finishedProcessQueue = new LinkedQueue<>();
-
-        // Reading the processes from the input file and storing them in an adaptable
-        // priority queue, keyed on arrival time.
-        System.out.println("Building Process Queue...");
-        while (reader.hasNextLine()) {
-            String line = reader.nextLine().toString();
-            String[] inputArray = line.split(" ");
-            int[] inputArrayInt  = new int[4];
-            int j = 0;
-            for (int i = 0; i < inputArray.length; i++) {
-                inputArrayInt[i] = Integer.valueOf(inputArray[i]);
-            }
-            Process process = new Process(inputArrayInt);
-            System.out.println(process.toString());
-            processQueue.insert(process.getArrivalTime(), process);
-        }
-
-        reader.close();
+        loadProcessesFromInput();
         int totalProcesses = processQueue.size();
         int totalWaitTime = 0;
 
@@ -168,5 +155,28 @@ public class ProcessScheduling {
         System.out.print(message);
         writer.write(message);
         writer.close();
+    }
+
+    private static void loadProcessesFromInput() throws FileNotFoundException {
+        File file = new File(System.getProperty(DIR) + READ_FILE_PATH);
+        Scanner reader = new Scanner(file);
+
+        // Reading the processes from the input file and storing them in an adaptable
+        // priority queue, keyed on arrival time.
+        System.out.println("Building Process Queue...");
+        while (reader.hasNextLine()) {
+            String line = reader.nextLine().toString();
+            String[] inputArray = line.split(" ");
+            int[] inputArrayInt  = new int[4];
+            int j = 0;
+            for (int i = 0; i < inputArray.length; i++) {
+                inputArrayInt[i] = Integer.valueOf(inputArray[i]);
+            }
+            Process process = new Process(inputArrayInt);
+            System.out.println(process.toString());
+            processQueue.insert(process.getArrivalTime(), process);
+        }
+
+        reader.close();
     }
 }
