@@ -17,7 +17,7 @@ public class ProcessScheduling {
 
         HeapAdaptablePriorityQueue<Integer, Process> schedulerQueue = new HeapAdaptablePriorityQueue<>();
         HeapAdaptablePriorityQueue<Integer, Process> processQueue = new HeapAdaptablePriorityQueue<>();
-        LinkedQueue<Process> helperQueue = new LinkedQueue<>();
+        LinkedQueue<Process> finishedProcessQueue = new LinkedQueue<>();
 
         // Reading the processes from the input file and storing them in an adaptable
         // priority queue, keyed on arrival time.
@@ -57,7 +57,6 @@ public class ProcessScheduling {
                 if (!schedulerQueue.isEmpty() && schedulerQueue.min().getKey() < runningProcess.getPriority()) {
                     schedulerQueue.insert(runningProcess.getPriority(), runningProcess);
                     runningProcess = schedulerQueue.removeMin().getValue();
-                    totalWaitTime += runningProcess.getWaitTime();
                     message = "Now running Process id = " + runningProcess.getId() + "\n" +
                             " Arrival = " + runningProcess.getArrivalTime() + "\n" +
                             "Duration = " + runningProcess.getDuration() + "\n" +
@@ -84,6 +83,7 @@ public class ProcessScheduling {
                                 "at time " + time + "\n";
                         System.out.print(message);
                         writer.write(message);
+                        finishedProcessQueue.enqueue(runningProcess);
                         runningProcess = null;
                     } else if (runTimeLeft > 1) {
                         runningProcess.setRunTimeLeft(runningProcess.getRunTimeLeft() - 1);
@@ -96,7 +96,6 @@ public class ProcessScheduling {
                 }
             } else if (runningProcess == null && !schedulerQueue.isEmpty()) {
                 runningProcess = schedulerQueue.removeMin().getValue();
-                totalWaitTime += runningProcess.getWaitTime();
                 message = "Now running Process id = " + runningProcess.getId() + "\n" +
                         " Arrival = " + runningProcess.getArrivalTime() + "\n" +
                         "Duration = " + runningProcess.getDuration() + "\n" +
@@ -124,9 +123,9 @@ public class ProcessScheduling {
                 while (itr.hasNext()) {
                     entry = (Entry) itr.next();
                     currProcess = (Process) entry.getValue();
-                    wait = (time - currProcess.getArrivalTime()) - (currProcess.getDuration() - currProcess.getRunTimeLeft());
+                    wait = currProcess.getWaitTime() + 1;
                     currProcess.setWaitTime(wait);
-                    if (wait % MAX_WAIT_TIME == (MAX_WAIT_TIME - 1)) {
+                    if (currProcess.getWaitTime() % MAX_WAIT_TIME == (MAX_WAIT_TIME - 1)) {
                         currProcess.setPriority(currProcess.getPriority() - 1);
                         message = "Process " + currProcess.getId() + " reached maximum wait time... decreasing priority to "
                                 + currProcess.getPriority() + "\n";
@@ -158,6 +157,11 @@ public class ProcessScheduling {
 //                schedulerQueue.insert(process.getPriority(), process);
 //            }
             time ++;
+        }
+        Process test;
+        while (!finishedProcessQueue.isEmpty()) {
+            test = finishedProcessQueue.dequeue();
+            totalWaitTime += test.getWaitTime();
         }
         double average = (double)totalWaitTime / (double)totalProcesses;
         message = "Average wait time: " + average + "\n";
