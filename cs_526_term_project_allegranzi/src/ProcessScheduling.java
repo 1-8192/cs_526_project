@@ -22,15 +22,27 @@ public class ProcessScheduling {
      * @throws IOException
      */
     public static void main(String args[]) throws IOException {
-        loadProcessesFromInput();
-        int totalProcesses = processQueue.size();
-        int totalWaitTime = 0;
 
-        // Actual simulation starts here
+        // Initializing variables for the simulation
         Process runningProcess = null;
         int time = 0;
+        File file = new File(System.getProperty(DIR) + READ_FILE_PATH);
+        Scanner reader = new Scanner(file);
         FileWriter writer = new FileWriter(System.getProperty(DIR) + WRITE_FILE_PATH, true);
         String message;
+
+        // Loading processes from input file. Then closing reader since we are done with it.
+        loadProcessesFromInput(reader, writer);
+        reader.close();
+
+        // If the input file was empty, we exit the program.
+        if (processQueue.isEmpty()) {
+            System.out.println("No processes found in input file. Quitting Scheduler");
+            writer.write("No processes found in input file. Quitting Scheduler");
+            System.exit(0);
+        }
+
+        // Main while loop for simulation
         while (!processQueue.isEmpty() || !schedulerQueue.isEmpty() || runningProcess != null) {
             // The Process queue is already keyed to arrival time, but in case we have 2 processes with the same
             // arrival time, we are setting this while condition to keep adding processes to the scheduler queue
@@ -98,10 +110,10 @@ public class ProcessScheduling {
             }
 
             // The instructions mention using another data structure to contain changing processes given the possible
-            // priority change. I opted to just iterate over the adaptable queue twice, once to update wait time, and
-            // once to update priority, to avoid key/value mishaps on one iteration. This strategy saves the space
-            // complexity of an additional queue, and still requires 2 iterations, like having to iterate through the
-            // additional queue to insert entries back into the main adaptable queue.
+            // priority change. I opted to just iterate over the adaptable queue to update wait time, and priority if
+            // necessary, to save on space complexity for the new data structure. The priority/key change was not
+            // problematic in testing. Since the priority would only lower, I don't think there's any danger of hitting
+            // the "same" entry twice with the iterator after a priority shift.
             if (!schedulerQueue.isEmpty()) {
                 Iterator itr = schedulerQueue.iterator();
                 Entry entry;
@@ -118,6 +130,7 @@ public class ProcessScheduling {
                                 + currProcess.getPriority() + "\n";
                         System.out.print(message);
                         writer.write(message);
+                        // Replacing value before we replace the key
                         schedulerQueue.replaceValue(entry, currProcess);
                         schedulerQueue.replaceKey(entry, currProcess.getPriority());
                     } else {
@@ -125,45 +138,31 @@ public class ProcessScheduling {
                     }
                 }
             }
-//            while (!schedulerQueue.isEmpty()) {
-//                Process min = schedulerQueue.removeMin().getValue();
-//                int wait = (time - min.getArrivalTime()) - (min.getDuration() - min.getRunTimeLeft());
-//                min.setWaitTime(wait);
-//                if (wait % MAX_WAIT_TIME == 0 && wait != 0) {
-//                    min.setPriority(min.getPriority() - 1);
-//                    message = "Process " + min.getId() + " reached maximum wait time... decreasing priority to "
-//                            + min.getPriority() + "\n";
-//                    System.out.print(message);
-//                    writer.write(message);
-//                }
-//                helperQueue.enqueue(min);
-//            }
-//
-//            while (!helperQueue.isEmpty()) {
-//                Process process = helperQueue.dequeue();
-//                schedulerQueue.insert(process.getPriority(), process);
-//            }
             time ++;
         }
-        Process test;
-        while (!finishedProcessQueue.isEmpty()) {
-            test = finishedProcessQueue.dequeue();
-            totalWaitTime += test.getWaitTime();
-        }
-        double average = (double)totalWaitTime / (double)totalProcesses;
+        // After main simulation loop finishes, we need to calculate the avergae wait time
+        double average = calculateAverageWaitTime(finishedProcessQueue);
         message = "Average wait time: " + average + "\n";
         System.out.print(message);
         writer.write(message);
+        // Finally closing the writer
         writer.close();
     }
 
-    private static void loadProcessesFromInput() throws FileNotFoundException {
-        File file = new File(System.getProperty(DIR) + READ_FILE_PATH);
-        Scanner reader = new Scanner(file);
+    /**
+     * Loads Processes from an input script and inserts them in a heap adaptable queue.
+     *
+     * @param reader file Scanner
+     * @param writer file Writer
+     *
+     * @throws IOException
+     */
+    private static void loadProcessesFromInput(Scanner reader, Writer writer) throws IOException {
 
         // Reading the processes from the input file and storing them in an adaptable
         // priority queue, keyed on arrival time.
         System.out.println("Building Process Queue...");
+        writer.write("Building Process Queue...");
         while (reader.hasNextLine()) {
             String line = reader.nextLine().toString();
             String[] inputArray = line.split(" ");
@@ -174,9 +173,26 @@ public class ProcessScheduling {
             }
             Process process = new Process(inputArrayInt);
             System.out.println(process.toString());
+            writer.write(process.toString());
             processQueue.insert(process.getArrivalTime(), process);
         }
+    }
 
-        reader.close();
+    /**
+     * Calucaltes the average wait time for all processes in a queue.
+     *
+     * @param processQueue the process queue we need the average for.
+     *
+     * @return the average wait time of processes in the queue
+     */
+    private static double calculateAverageWaitTime(LinkedQueue<Process> processQueue) {
+        double waitTime = 0;
+        double totalProcesses = processQueue.size();
+        Process test;
+        while (!processQueue.isEmpty()) {
+            test = processQueue.dequeue();
+            waitTime += test.getWaitTime();
+        }
+        return waitTime / totalProcesses;
     }
 }
