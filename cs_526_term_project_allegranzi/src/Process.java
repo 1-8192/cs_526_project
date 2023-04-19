@@ -1,5 +1,6 @@
-import net.datastructures.HeapAdaptablePriorityQueue;
-
+/**
+ * Class to represent Process object that the Scheduler will execute in order.
+ */
 public class Process {
     private int id;
 
@@ -28,7 +29,7 @@ public class Process {
         this.waitTime = (inputArray.length >= 5) ? inputArray[4] : 0;
         this.runTimeLeft = (inputArray.length >= 6) ? inputArray[5] : inputArray[2];
     }
-
+    // All the setters and getters
     public int getId() {
         return this.id;
     }

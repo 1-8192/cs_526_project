@@ -8,26 +8,42 @@ import java.util.Scanner;
 
 import static constants.SchedulerConstants.*;
 
+/**
+ * Main class to run process scheduler simulation
+ */
 public class Scheduler {
 
     private HeapAdaptablePriorityQueue<Integer, Process> schedulerQueue;
     private HeapAdaptablePriorityQueue<Integer, Process> processQueue;
     private LinkedQueue<Process> finishedProcessQueue;
 
+    private Process runningProcess;
+    private int time;
+
+    private String message;
+
+    /**
+     * Constructor takes no args. Instantiates the necessary class variables to run a
+     * scheduler simulation.
+     */
     public Scheduler() {
         this.schedulerQueue = new HeapAdaptablePriorityQueue<>();
         this.processQueue = new HeapAdaptablePriorityQueue<>();
         this.finishedProcessQueue = new LinkedQueue<>();
+        this.runningProcess = null;
+        this.time = 0;
     }
 
+    /**
+     * Method to run the simulation for the project.
+     *
+     * @throws IOException
+     */
     public void runSimulation() throws IOException {
         // Initializing variables for the simulation
-        Process runningProcess = null;
-        int time = 0;
         File file = new File(System.getProperty(DIR) + READ_FILE_PATH);
         Scanner reader = new Scanner(file);
         FileWriter writer = new FileWriter(System.getProperty(DIR) + WRITE_FILE_PATH, true);
-        String message;
 
         // Loading processes from input file. Then closing reader since we are done with it.
         loadProcessesFromInput(reader, writer);
@@ -35,8 +51,10 @@ public class Scheduler {
 
         // If the input file was empty, we exit the program.
         if (processQueue.isEmpty()) {
-            System.out.println("No processes found in input file. Quitting Scheduler");
-            writer.write("No processes found in input file. Quitting Scheduler");
+            message = "No processes found in input file. Quitting Scheduler";
+            System.out.println(message);
+            writer.write(message);
+            writer.close();
             System.exit(0);
         }
 
