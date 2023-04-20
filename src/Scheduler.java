@@ -81,6 +81,11 @@ public class Scheduler {
             System.exit(0);
         }
 
+        // Printing the Maximum Wait time
+        message = "\n" + "Maximum Wait Time = " + MAX_WAIT_TIME;
+        System.out.println(message);
+        writer.write(message);
+
         // Main while loop for simulation. If all queues are empty, and there is no running Process, we are done.
         while (!inputProcessQueue.isEmpty() || !schedulerQueue.isEmpty() || runningProcess != null) {
             /**
