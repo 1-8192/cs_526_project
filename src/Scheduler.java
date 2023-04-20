@@ -248,7 +248,7 @@ public class Scheduler {
             }
             Process process = new Process(inputArrayInt);
             System.out.println(process.toString());
-            writer.write(process.toString());
+            writer.write(process.toString() + "\n");
             inputProcessQueue.insert(process.getArrivalTime(), process);
         }
     }
