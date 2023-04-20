@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ecebe92f-c6cd-4b06-a91e-8cfb1aa9fea6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../CS526_project-assignment.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cs_526_term_project_allegranzi.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/cs_526_term_project_allegranzi/input/process_scheduling_input.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/cs_526_term_project_allegranzi/output/process_scheduling_output.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Process.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ProcessScheduling.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scheduler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/SchedulerConstants.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/input/process_scheduling_input.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/AVLTreeMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/AbstractBinaryTree.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/AbstractHashMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/AbstractMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/AbstractPriorityQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/AbstractSortedMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/AbstractTree.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/AdaptablePriorityQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/AdjacencyMapGraph.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/ArrayList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/ArrayQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/ArrayStack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/BinaryTree.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/ChainHashMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/CircularQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/CircularlyLinkedList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/DefaultComparator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/Deque.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/DoublyLinkedList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/Edge.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/Entry.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/Graph.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/GraphAlgorithms.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/GraphExamples.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/HeapAdaptablePriorityQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/HeapPriorityQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/LinkedBinaryTree.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/LinkedCircularQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/LinkedPositionalList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/LinkedQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/LinkedStack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/List.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/Map.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/Partition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/Position.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/PositionalList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/PriorityQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/ProbeHashMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/Queue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/RBTreeMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/SinglyLinkedList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/SortedMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/SortedPriorityQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/SortedTableMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/SplayTreeMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/Stack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/Tree.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/TreeMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/UnsortedPriorityQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/UnsortedTableMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/datastructures/Vertex.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/output/process_scheduling_output.txt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2Nf4KFeXLubxpADv9ljDFp1lzfe" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/input" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ecebe92f-c6cd-4b06-a91e-8cfb1aa9fea6" name="Changes" comment="" />
+      <created>1680041739159</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1680041739159</updated>
+      <workItem from="1680041740410" duration="59000" />
+      <workItem from="1680189985060" duration="107000" />
+      <workItem from="1680190153050" duration="32000" />
+      <workItem from="1680560087298" duration="1172000" />
+      <workItem from="1681334269998" duration="5782000" />
+      <workItem from="1681418196313" duration="9206000" />
+      <workItem from="1681499958521" duration="1112000" />
+      <workItem from="1681585215132" duration="7282000" />
+      <workItem from="1681658125974" duration="45686000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
