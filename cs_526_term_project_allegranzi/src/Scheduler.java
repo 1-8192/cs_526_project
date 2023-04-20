@@ -14,12 +14,12 @@ import static constants.SchedulerConstants.*;
  */
 public class Scheduler {
     /**
-     * Main adaptable priority queue used to store processes by order of priority.
+     * Main heap adaptable priority queue used to store processes by order of priority in the scheduler.
      */
     private HeapAdaptablePriorityQueue<Integer, Process> schedulerQueue;
 
     /**
-     * Priority Queue to store processes scanned from an input file.
+     * Heap Adaptable Priority Queue to store processes scanned from an input file.
      */
     private HeapAdaptablePriorityQueue<Integer, Process> inputProcessQueue;
 
