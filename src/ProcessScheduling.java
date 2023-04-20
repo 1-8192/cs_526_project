@@ -3,8 +3,10 @@ import java.io.*;
 public class ProcessScheduling {
 
     /**
-     * Main class function for program.
-     * @param args
+     * Class with main method for the Process Scheduler Program.
+     * Final project for CS 526.
+     *
+     * @param args main method params
      *
      * @throws IOException
      */
