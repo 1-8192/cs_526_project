@@ -35,7 +35,7 @@ public class Process {
     private int runTimeLeft;
 
     /**
-     * Class Constructor.
+     * Standard class Constructor.
      *
      * @param id          process id
      * @param priority    process priority
@@ -55,7 +55,13 @@ public class Process {
 
     /**
      * Constructor for array input.
-     * @param inputArray input Array of variables to initialize.
+     * @param inputArray input Array of variables to initialize. Please ensure array indexes are keyed to:
+     *                   0 => id
+     *                   1 => priority
+     *                   2 => duration
+     *                   3 => arrivalTime
+     *                   4 => waitTime (optional)
+     *                   5 => runTimeLeft (optional)
      */
     public Process(int[] inputArray) {
         this.id = inputArray[0];
