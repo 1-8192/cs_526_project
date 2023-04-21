@@ -85,6 +85,7 @@ public class Scheduler {
         message = "\n" + "Maximum Wait Time = " + MAX_WAIT_TIME;
         System.out.println(message);
         writer.write(message);
+        writer.write("\n");
 
         // Main while loop for simulation. If all queues are empty, and there is no running Process, we are done.
         while (!inputProcessQueue.isEmpty() || !schedulerQueue.isEmpty() || runningProcess != null) {
@@ -194,11 +195,14 @@ public class Scheduler {
                     wait = (time - currProcess.getArrivalTime() + 1) - (currProcess.getDuration()
                             - currProcess.getRunTimeLeft());
                     currProcess.setWaitTime(wait);
-                    // Checking to see if the process has waited a max wait time cycle, by using the modulo operator.
+                    // Checking to see if the process has waited a max wait time cycle by using the modulo operator.
                     // Also checking that the wait time isn't 0. For this case we are updating both the value and the
                     // key for the process.
                     if (currProcess.getWaitTime() != 0 && currProcess.getWaitTime() % MAX_WAIT_TIME == 0) {
-                        currProcess.setPriority(currProcess.getPriority() - 1);
+                        // Quick check to make sure we do not set a negative priority.
+                        if (currProcess.getPriority() > 0) {
+                            currProcess.setPriority(currProcess.getPriority() - 1);
+                        }
                         message = "Process " + currProcess.getId() + " reached maximum wait time... decreasing " +
                                 "priority to " + currProcess.getPriority() + "\n";
                         System.out.print(message);
@@ -220,10 +224,17 @@ public class Scheduler {
          * Final average wait time calculation
          */
 
+        // Time increments at the end of the loop, so rather than adding a break statement within the loop after the
+        // final process, just removing one time step here.
+        time --;
+        message = "Finished running all processes at time " + time + "\n";
+        System.out.print(message);
+        writer.write(message);
         double average = calculateAverageWaitTime(finishedProcessQueue);
         message = "Average wait time: " + average + "\n";
         System.out.print(message);
         writer.write(message);
+        writer.write("\n");
         // Finally closing the writer
         writer.close();
     }
@@ -243,6 +254,7 @@ public class Scheduler {
         message = "Building Process Queue...";
         System.out.println(message);
         writer.write(message);
+        writer.write("\n");
         while (reader.hasNextLine()) {
             String line = reader.nextLine().toString();
             String[] inputArray = line.split(" ");
